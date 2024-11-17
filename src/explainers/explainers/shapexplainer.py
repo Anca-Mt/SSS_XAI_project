@@ -43,13 +43,13 @@ class ShapleyExplainer(ExplainerBase):
   def save_results(self, output_path):
     pickle.dump(self.shap_values, open(os.path.join(output_path, "shapley_explanations.pk"), "wb"))
 
-    
-    for i in range(len(self.shap_values)):
-      shap.plots.force(self.shap_values[i, :], matplotlib=True, show=False)
-
-      plt.savefig(os.path.join(output_path, f"shap_explanation_{i}.png"))
-      plt.close()
-    
-    shap.summary_plot(self.shap_values, show=False, plot_size=(10,8))
-    plt.savefig(os.path.join(output_path, "shap_summary_plot.png"))
-    plt.close()
+    # for i in range(len(self.shap_values)):
+    #   # shap.plots.force(self.shap_values[i], matplotlib=True, show=False)
+    #   shap.plots.waterfall(self.shap_values[0], show=True)
+    #
+    #   plt.savefig(os.path.join(output_path, f"shap_explanation_{i}.png"))
+    #   plt.close()
+    #
+    # shap.summary_plot(self.shap_values,self.X, show=False, plot_size=(10,8))
+    # plt.savefig(os.path.join(output_path, "shap_summary_plot.png"))
+    # plt.close()

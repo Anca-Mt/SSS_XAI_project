@@ -55,11 +55,11 @@ class LimeExplainer(ExplainerBase):
                                                   class_names=["benign", "malicious"],
                                                   mode="classification", 
                                                   # discretize_continuous=False,
-                                                  verbose=False
+                                                  verbose=True
                                                 )
 
     exps = list()
-    for index in range(X.shape[0]):
+    for index in range(min(X.shape[0], 100)):
       exp = explainer.explain_instance(data_row=X[index, :], predict_fn=classifier.classifier.predict_proba) # TODO: have a better predict function interface here
       exps.append(exp)
 

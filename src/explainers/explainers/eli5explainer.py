@@ -39,5 +39,5 @@ class ELI5Explainer(ExplainerBase):
 
   def save_results(self, output_path):
     html_file = eli5.formatters.html.format_as_html(explanation=self.explanation)
-    with open(output_path + 'ELI5_weights_explanations.html', 'w') as output:
+    with open(os.path.join(output_path, "ELI5_weights_explanations.html"), 'w') as output:
       output.write(html_file)

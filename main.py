@@ -57,25 +57,35 @@ def test_filepaths(args):
     raise Exception("Invalid path to ini-file: {}".format(inifile))
 
 
+"""
+For Bart & me: 
+- parser strings: npy, csv
+- classifiers strings: random forest, decisiontree, svm, ebmclassifier
+- explainer strings:  lime, shap, eli5, ebm
+
+These were found in the factory files. 
+"""
+
+
 if __name__ == "__main__":
   argparser = argparse.ArgumentParser(description='The pipeline for the explainability experiments.')
 
-  argparser.add_argument('parser', type=str, help='The argparser as a string')
-  argparser.add_argument('classifier', type=str, help='The classifier as a string')
-  argparser.add_argument('explainer', type=str, help='The explainer as a string')
+  argparser.add_argument('--parser', default="npy", type=str, help='The argparser as a string')
+  argparser.add_argument('--classifier', default="decisiontree", type=str, help='The classifier as a string')
+  argparser.add_argument('--explainer', default="eli5", type=str, help='The explainer as a string')
 
-  argparser.add_argument('--xtrain', type=str, help='Path to X-train. Mandatory.')
-  argparser.add_argument('--ytrain', type=str, help='Path to y-train. Mandatory.')
+  argparser.add_argument('--xtrain', default="CTU-13_npys/Scenario 1/X_train.npy", type=str,  help='Path to X-train. Mandatory.')
+  argparser.add_argument('--ytrain', default="CTU-13_npys/Scenario 1/Y_train.npy", type=str, help='Path to y-train. Mandatory.')
 
-  argparser.add_argument('--xtest', default=None, type=str, help='Path to X-test. Not mandatory, but some classifiers will need this for training.')
-  argparser.add_argument('--ytest', default=None, type=str, help='Path to y-test. Not mandatory, but some classifiers will need this for training.')
+  argparser.add_argument('--xtest', default="CTU-13_npys/Scenario 1/X_test.npy", type=str, help='Path to X-test. Not mandatory, but some classifiers will need this for training.')
+  argparser.add_argument('--ytest', default="CTU-13_npys/Scenario 1/Y_test.npy", type=str, help='Path to y-test. Not mandatory, but some classifiers will need this for training.')
   
-  argparser.add_argument('--xexplain', type=str, help='Path to X-explain. Mandatory.')
-  argparser.add_argument('--yexplain', type=str, help='Path to y-explain. Mandatory.')
+  argparser.add_argument('--xexplain', default="CTU-13_npys/Scenario 1/X_explain.npy", type=str, help='Path to X-explain. Mandatory.')
+  argparser.add_argument('--yexplain', default="CTU-13_npys/Scenario 1/Y_explain.npy", type=str, help='Path to y-explain. Mandatory.')
 
   argparser.add_argument('--ini', type=str, default=None, help='The explainer as a string')
   argparser.add_argument('--load-classifier', type=str, default=None, help='Path to a pickled classifier file. If provided, this classifier will be loaded rather than a new one trained.')
-  argparser.add_argument('--output-path', type=str, default=workdir, help='Output dir for this experiment. Default is the script\'s directory.')
+  argparser.add_argument('--output-path', type=str, default="RESULTS_CTU-13/Scenario 1/ELI5", help='Output dir for this experiment. Default is the script\'s directory.')
 
   args = argparser.parse_args()
 
