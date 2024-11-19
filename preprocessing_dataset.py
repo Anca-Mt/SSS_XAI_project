@@ -41,17 +41,18 @@ def clean_data(data):
     return data
 
 if __name__ == '__main__':
-    CTU_1 = pd.read_parquet("CTU-13/1-Neris-20110810.binetflow.parquet")
-    CTU_1 = apply_binary_label(CTU_1)
-    CTU_1 = encode_features(CTU_1, ['proto', 'state'])
-    CTU_1 = clean_data(CTU_1)
-
-    CTU_1.to_csv("CTU-13_csvs/1-Neris-20110810.csv", index=False)
-
-    # CTU_3 = pd.read_parquet("C:/Users/User/PYTHON PROJECTS/SSS_A2/xai-pipeline/CTU-13/3-Rbot-20110812.binetflow.parquet")
-    # CTU_3.to_csv("C:/Users/User/PYTHON PROJECTS/SSS_A2/xai-pipeline/CTU-13_csvs/3-Rbot-20110812.csv", index=False)
+    # CTU_1 = pd.read_parquet("CTU-13/1-Neris-20110810.binetflow.parquet")
+    # CTU_1 = apply_binary_label(CTU_1)
+    # CTU_1 = encode_features(CTU_1, ['proto', 'state'])
+    # CTU_1 = clean_data(CTU_1)
     #
-    # CTU_5 = pd.read_parquet("C:/Users/User/PYTHON PROJECTS/SSS_A2/xai-pipeline/CTU-13/5-Virut-20110815-2.binetflow.parquet")
-    # CTU_5.to_csv("C:/Users/User/PYTHON PROJECTS/SSS_A2/xai-pipeline/CTU-13_csvs/5-Virut-20110815.csv", index=False)
+    # CTU_1.to_csv("CTU-13_csvs/1-Neris-20110810.csv", index=False)
 
-    print(CTU_1.head())
+    CTU_13 = pd.read_parquet("CTU-13/combined_CTU-13.parquet")
+    CTU_13 = apply_binary_label(CTU_13)
+    CTU_13 = encode_features(CTU_13, ['proto', 'state'])
+    CTU_13 = clean_data(CTU_13)
+
+    CTU_13.to_csv("CTU-13_csvs/combined_CTU-13.csv", index=False)
+
+    print(CTU_13.head())

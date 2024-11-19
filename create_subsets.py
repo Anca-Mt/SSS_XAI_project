@@ -2,7 +2,7 @@ from sklearn.model_selection import train_test_split
 import pandas as pd
 import numpy as np
 
-def split_data(data, label_column, test_size=0.3, explain_size=0.1):
+def split_data(data, label_column, test_size=0.2, explain_size=0.05):
 
     X = data.drop(columns=[label_column])
     y = data[label_column]
@@ -24,8 +24,8 @@ def split_data(data, label_column, test_size=0.3, explain_size=0.1):
 
 if __name__ == "__main__":
 
-    CTU_1 = pd.read_csv("CTU-13_csvs/1-Neris-20110810.csv")
-    splits = split_data(CTU_1, label_column="BinaryLabel")
+    CTU_13 = pd.read_csv("CTU-13_csvs/combined_CTU-13.csv")
+    splits = split_data(CTU_13, label_column="BinaryLabel")
 
     X_train, y_train = splits["train"]
     X_test, y_test = splits["test"]
@@ -35,9 +35,9 @@ if __name__ == "__main__":
     print(f"Test set: {len(X_test)} samples")
     print(f"Explain set: {len(X_explain)} samples")
 
-    np.save("CTU-13_npys/Scenario 1/X_train.npy", X_train)
-    np.save("CTU-13_npys/Scenario 1/X_test.npy", X_test)
-    np.save("CTU-13_npys/Scenario 1/Y_train.npy", y_train)
-    np.save("CTU-13_npys/Scenario 1/Y_test.npy", y_test)
-    np.save("CTU-13_npys/Scenario 1/X_explain.npy", X_explain)
-    np.save("CTU-13_npys/Scenario 1/Y_explain.npy", y_explain)
+    np.save("CTU-13_npys/All/X_train.npy", X_train)
+    np.save("CTU-13_npys/All/X_test.npy", X_test)
+    np.save("CTU-13_npys/All/Y_train.npy", y_train)
+    np.save("CTU-13_npys/All/Y_test.npy", y_test)
+    np.save("CTU-13_npys/All/X_explain.npy", X_explain)
+    np.save("CTU-13_npys/All/Y_explain.npy", y_explain)
