@@ -2,6 +2,9 @@
 experiments/*
 data/*
 
+# Other
+ss_project_proposal.pdf
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

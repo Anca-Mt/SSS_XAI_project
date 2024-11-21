@@ -2,7 +2,7 @@ import pandas as pd
 import os
 
 # Path to the directory containing the parquet files
-directory = "CTU-13"
+directory = "datasets_raw/CTU-13"
 
 # List to hold all DataFrames
 dataframes = []
@@ -19,6 +19,6 @@ for filename in os.listdir(directory):
 combined_df = pd.concat(dataframes, ignore_index=True)
 
 # Save the combined DataFrame to a new parquet file
-combined_df.to_parquet("CTU-13/combined_CTU-13.parquet")
+combined_df.to_parquet("datasets_raw/CTU-13/CTU-13.parquet")
 
-print("All files have been combined and saved as 'combined_CTU-13.parquet'")
+print("All files have been combined and saved as 'CTU-13.parquet'")

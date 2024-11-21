@@ -18,6 +18,35 @@ from src.parsers.factory import ParserFactory
 from src.classifiers.factory import ClassifierFactory
 from src.explainers.factory import ExplainerFactory
 
+valid_datasets = [
+    "CTU-13",
+    "NSL-KDD",
+    "UNSW-NB15",
+]
+
+dataset_npy_dir = "datasets_npy"
+
+def test_dataset(dataset_name):
+  """[Tests datset to see if all files are present.]
+  
+  Args:
+      dataset_name ([str]): [The dataset name to explain]
+  
+  Raises:
+      Exception: [Path to dataset not provided, wrong, or files are missing]
+  
+  Returns:
+      `['X_train.npy', 'Y_train.npy', 'X_test.npy', 'Y_test.npy', 'X_explain.npy', 'Y_explain.npy']`: [Iff all files exist]
+  """
+
+  filenames = ['_'.join([prefix, postfix]) + '.npy' for postfix in ['train', 'test', 'explain'] for prefix in ['X', 'Y']]
+  filepaths = [os.path.join('datasets_npy', dataset_name, file) for file in filenames]
+
+  for file in filepaths:
+    if not os.path.isfile(file):
+      raise Exception(f"Could not find path to {file}.npy.")
+  
+  return filepaths
 
 def test_filepaths(args):
   """[Tests the filepaths set by arguments]
@@ -66,6 +95,21 @@ For Bart & me:
 These were found in the factory files. 
 """
 
+"""
+For either one of us:
+- Should be consistent in the future about the dataset folder and filename structure
+- If anything is to change, make sure we do it consistently so we have a format to work with and implement more datasets/classifiers
+- Idea for the explainer .ini files: here in main, look at what dataset we will be using, and have for instance
+shapexplainer_CTU-13.ini, rename it to shapexlainer.ini so we automatically use the right column names
+
+- Main changes to running files:
+  * create_subset.py now requires a -d or --dataset parameter to select the correct dataset (currently only 1)
+  * main.py no longer requires giving xtrain, ytrain, xtest etc... just the name of the dataset!
+  * valid datasets in the files where you have to pick are listed in the array valid_datasets near the top
+
+TODO: create --explainer all to run all explainers on the given dataset
+"""
+
 
 if __name__ == "__main__":
   argparser = argparse.ArgumentParser(description='The pipeline for the explainability experiments.')
@@ -74,29 +118,26 @@ if __name__ == "__main__":
   argparser.add_argument('--classifier', default="decisiontree", type=str, help='The classifier as a string')
   argparser.add_argument('--explainer', default="eli5", type=str, help='The explainer as a string')
 
-  argparser.add_argument('--xtrain', default="CTU-13_npys/Scenario 1/X_train.npy", type=str,  help='Path to X-train. Mandatory.')
-  argparser.add_argument('--ytrain', default="CTU-13_npys/Scenario 1/Y_train.npy", type=str, help='Path to y-train. Mandatory.')
+  argparser.add_argument('-d', '--dataset', default=None, type=str,  help='Dataset to explain. Mandatory.')
 
-  argparser.add_argument('--xtest', default="CTU-13_npys/Scenario 1/X_test.npy", type=str, help='Path to X-test. Not mandatory, but some classifiers will need this for training.')
-  argparser.add_argument('--ytest', default="CTU-13_npys/Scenario 1/Y_test.npy", type=str, help='Path to y-test. Not mandatory, but some classifiers will need this for training.')
+#   argparser.add_argument('--xtrain', default="CTU-13_npys/Scenario 1/X_train.npy", type=str,  help='Path to X-train. Mandatory.')
+#   argparser.add_argument('--ytrain', default="CTU-13_npys/Scenario 1/Y_train.npy", type=str, help='Path to y-train. Mandatory.')
+
+#   argparser.add_argument('--xtest', default="CTU-13_npys/Scenario 1/X_test.npy", type=str, help='Path to X-test. Not mandatory, but some classifiers will need this for training.')
+#   argparser.add_argument('--ytest', default="CTU-13_npys/Scenario 1/Y_test.npy", type=str, help='Path to y-test. Not mandatory, but some classifiers will need this for training.')
   
-  argparser.add_argument('--xexplain', default="CTU-13_npys/Scenario 1/X_explain.npy", type=str, help='Path to X-explain. Mandatory.')
-  argparser.add_argument('--yexplain', default="CTU-13_npys/Scenario 1/Y_explain.npy", type=str, help='Path to y-explain. Mandatory.')
+#   argparser.add_argument('--xexplain', default="CTU-13_npys/Scenario 1/X_explain.npy", type=str, help='Path to X-explain. Mandatory.')
+#   argparser.add_argument('--yexplain', default="CTU-13_npys/Scenario 1/Y_explain.npy", type=str, help='Path to y-explain. Mandatory.')
 
   argparser.add_argument('--ini', type=str, default=None, help='The explainer as a string')
   argparser.add_argument('--load-classifier', type=str, default=None, help='Path to a pickled classifier file. If provided, this classifier will be loaded rather than a new one trained.')
-  argparser.add_argument('--output-path', type=str, default="RESULTS_CTU-13/Scenario 1/ELI5", help='Output dir for this experiment. Default is the script\'s directory.')
+  argparser.add_argument('--output-path', type=str, default="results", help='Output dir for this experiment. Default is the script\'s directory.')
 
   args = argparser.parse_args()
 
-  test_filepaths(args)
+  #test_filepaths(args)
 
-  X_train_f = args.xtrain
-  y_train_f = args.ytrain
-  X_test_f = args.xtest
-  y_test_f = args.ytest
-  X_explain_f = args.xexplain
-  y_explain_f = args.yexplain
+  X_train_f, y_train_f, X_test_f, y_test_f, X_explain_f, y_explain_f = test_dataset(args.dataset)
 
   inifile = args.ini
 
@@ -114,7 +155,8 @@ if __name__ == "__main__":
   X_explain = fileparser.parse(X_explain_f)
   y_explain = fileparser.parse(y_explain_f)
 
-  output_path = args.output_path
+  # output_path = args.output_path
+  output_path = os.path.join(args.output_path, args.dataset)
   if not os.path.isdir(output_path):
     os.mkdir(output_path)
 

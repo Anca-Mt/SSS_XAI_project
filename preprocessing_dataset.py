@@ -48,11 +48,12 @@ if __name__ == '__main__':
     #
     # CTU_1.to_csv("CTU-13_csvs/1-Neris-20110810.csv", index=False)
 
-    CTU_13 = pd.read_parquet("CTU-13/combined_CTU-13.parquet")
+    CTU_13 = pd.read_parquet("datasets_raw/CTU-13/CTU-13.parquet")
     CTU_13 = apply_binary_label(CTU_13)
     CTU_13 = encode_features(CTU_13, ['proto', 'state'])
     CTU_13 = clean_data(CTU_13)
-
-    CTU_13.to_csv("CTU-13_csvs/combined_CTU-13.csv", index=False)
+    
+    os.makedirs("datasets_csv/CTU-13", exist_ok=True)
+    CTU_13.to_csv("datasets_csv/CTU-13/CTU-13.csv", index=False)
 
     print(CTU_13.head())
