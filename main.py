@@ -26,6 +26,20 @@ valid_datasets = [
 
 dataset_npy_dir = "datasets_npy"
 
+import contextlib
+import sys
+
+class DummyFile(object):
+    def write(self, x): pass
+    def flush(self): pass
+
+@contextlib.contextmanager
+def nostdout():
+    save_stdout = sys.stdout
+    sys.stdout = DummyFile()
+    yield
+    sys.stdout = save_stdout
+
 def test_dataset(dataset_name):
   """[Tests datset to see if all files are present.]
   
@@ -116,7 +130,7 @@ if __name__ == "__main__":
 
   argparser.add_argument('--parser', default="npy", type=str, help='The argparser as a string')
   argparser.add_argument('--classifier', default="decisiontree", type=str, help='The classifier as a string')
-  argparser.add_argument('--explainer', default="eli5", type=str, help='The explainer as a string')
+  argparser.add_argument('--explainer', default="all", type=str, help='The explainer as a string. \'all\' for all explainers')
 
   argparser.add_argument('-d', '--dataset', default=None, type=str,  help='Dataset to explain. Mandatory.')
 
@@ -144,7 +158,7 @@ if __name__ == "__main__":
   pfactory = ParserFactory()
   fileparser = pfactory.create_parser(args.parser)
 
-  print("Parsing the input files.")
+  print("Parsing the input files... ", end='', flush=True)
   X_train = fileparser.parse(X_train_f)
   y_train = fileparser.parse(y_train_f)
 
@@ -154,12 +168,13 @@ if __name__ == "__main__":
 
   X_explain = fileparser.parse(X_explain_f)
   y_explain = fileparser.parse(y_explain_f)
+  print("Finished parsing the input files.")
 
   # output_path = args.output_path
   output_path = os.path.join(args.output_path, args.dataset)
   if not os.path.isdir(output_path):
-    os.mkdir(output_path)
-
+     os.makedirs(output_path, exist_ok=True)
+    
   load_classifier = args.load_classifier
   if load_classifier:
     if not os.path.isfile(load_classifier):
@@ -168,15 +183,32 @@ if __name__ == "__main__":
   else:
     cfactory = ClassifierFactory()
     classifier = cfactory.create_classifier(args.classifier)
-    print("Starting the training of the classifier.")
+    print("Starting the training of the classifier... ", end='')
     classifier.fit(X_train, y_train)
     classifier.print_wrong_predictions(X_explain, y_explain, output_path)
     pickle.dump(classifier, open(os.path.join(output_path, "classifier.pk"), "wb"))
+    print("Finished training the classifier.")
+  
+  explainers = [args.explainer]
+  if args.explainer == 'all':
+    print("Running all explainers...")
+    explainers = ['shap', 'lime', 'eli5', 'ebm']
 
-  print("Starting the explanation step.")
-  efactory = ExplainerFactory()
-  explainer = efactory.create_explainer(args.explainer)
-  explainer.explain(classifier, X_explain, y_explain)
+  for exp in explainers:
+    print(f"Starting the explanation step for {exp}... ", end='', flush=True)
+    try:
+        efactory = ExplainerFactory()
+        with nostdout():
+            explainer = efactory.create_explainer(exp)
+            explainer.explain(classifier, X_explain, y_explain)
 
-  print("Finished explanations. Saving results to {}".format(output_path))
-  explainer.save_results(output_path)
+        output_path = os.path.join(args.output_path, args.dataset, exp)
+        if not os.path.isdir(output_path):
+            os.makedirs(output_path, exist_ok=True)
+        print(f"Finished explanations.\nSaving results to {output_path}... ", end='', flush=True)
+        explainer.save_results(output_path)
+        print("Finished saving results.")
+    except Exception as e:
+      print(f"An error occurred while trying to run {exp}: {e}. Continuing...")
+
+print("All tasks finished.")
