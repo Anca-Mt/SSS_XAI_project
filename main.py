@@ -132,7 +132,7 @@ if __name__ == "__main__":
   argparser.add_argument('--classifier', default="decisiontree", type=str, help='The classifier as a string')
   argparser.add_argument('--explainer', default="shap", type=str, help='The explainer as a string. \'all\' for all explainers')
 
-  argparser.add_argument('-d', '--dataset', default="CTU-13", type=str,  help='Dataset to explain. Mandatory.')
+  argparser.add_argument('-d', '--dataset', default="NSL-KDD", type=str,  help='Dataset to explain. Mandatory.')
 
 #   argparser.add_argument('--xtrain', default="CTU-13_npys/Scenario 1/X_train.npy", type=str,  help='Path to X-train. Mandatory.')
 #   argparser.add_argument('--ytrain', default="CTU-13_npys/Scenario 1/Y_train.npy", type=str, help='Path to y-train. Mandatory.')
@@ -200,7 +200,7 @@ if __name__ == "__main__":
         efactory = ExplainerFactory()
         with nostdout():
             explainer = efactory.create_explainer(exp)
-            explainer.explain(classifier, X_explain, y_explain)
+            explainer.explain(classifier=classifier, X=X_explain, y=y_explain, dataset_ini=args.dataset)
 
         output_path = os.path.join(args.output_path, args.dataset, exp)
         if not os.path.isdir(output_path):

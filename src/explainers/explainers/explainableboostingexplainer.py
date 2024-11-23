@@ -14,7 +14,7 @@ class EBMExplainer(ExplainerBase):
   def __init__(self):
     super().__init__()
 
-  def explain(self, classifier, X, y):
+  def explain(self, classifier, X, y, dataset_ini):
     """[Runs a lime explanation, and saves results as object attribute.]
 
     Args:
@@ -26,7 +26,7 @@ class EBMExplainer(ExplainerBase):
         Exception: [.ini file does not exist]
     """
     scriptdir = os.path.dirname(os.path.realpath(__file__))
-    filedir = os.path.join(scriptdir, "../parameters/explainableboostingexplainer.ini")
+    filedir = os.path.join(scriptdir, f"../parameters/{dataset_ini}/explainableboostingexplainer.ini")
     if not os.path.isfile(os.path.join(filedir)):
       raise Exception("Problem reading explainableboostingexplainer.ini file in EBMExplainer. Is the file existent?")
 

@@ -17,7 +17,7 @@ class ELI5Explainer(ExplainerBase):
     super().__init__()
 
 
-  def explain(self, classifier, X, y):
+  def explain(self, classifier, X, y, dataset_ini):
     """[Runs a ELI5 explanation, and saves results as object attribute.]
 
     Args:
@@ -26,7 +26,7 @@ class ELI5Explainer(ExplainerBase):
         y ([np.array]): [y]
     """
     scriptdir = os.path.dirname(os.path.realpath(__file__))
-    filedir = os.path.join(scriptdir, "../parameters/eli5explainer.ini")
+    filedir = os.path.join(scriptdir, f"../parameters/{dataset_ini}/eli5explainer.ini")
     if not os.path.isfile(os.path.join(filedir)):
       raise Exception("Problem reading eli5explainer.ini file in Eli5Explainer. Is the file existent?")
 

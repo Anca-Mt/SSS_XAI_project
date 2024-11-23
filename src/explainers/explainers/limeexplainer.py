@@ -19,7 +19,7 @@ class LimeExplainer(ExplainerBase):
     super().__init__()
 
 
-  def explain(self, classifier, X, y):
+  def explain(self, classifier, X, y, dataset_ini):
     """[Runs a lime explanation, and saves results as object attribute.]
 
     Args:
@@ -31,7 +31,7 @@ class LimeExplainer(ExplainerBase):
         Exception: [.ini file does not exist]
     """
     scriptdir = os.path.dirname(os.path.realpath(__file__))
-    filedir = os.path.join(scriptdir, "../parameters/limeexplainer.ini")
+    filedir = os.path.join(scriptdir, f"../parameters/{dataset_ini}/limeexplainer.ini")
     if not os.path.isfile(os.path.join(filedir)):
       raise Exception("Problem reading limeexplainer.ini file in LimeExplainer. Is the file existent?")
 

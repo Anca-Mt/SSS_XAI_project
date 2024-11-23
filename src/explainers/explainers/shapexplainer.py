@@ -17,7 +17,7 @@ class ShapleyExplainer(ExplainerBase):
     super().__init__()
 
 
-  def explain(self, classifier, X, y):
+  def explain(self, classifier, X, y, dataset_ini):
     """[Runs a shap explanation, and saves results as object attribute.]
 
     Args:
@@ -26,7 +26,7 @@ class ShapleyExplainer(ExplainerBase):
         y ([np.array]): [y]
     """
     scriptdir = os.path.dirname(os.path.realpath(__file__))
-    filedir = os.path.join(scriptdir, "../parameters/shapexplainer.ini")
+    filedir = os.path.join(scriptdir, f"../parameters/{dataset_ini}/shapexplainer.ini")
     if not os.path.isfile(os.path.join(filedir)):
       raise Exception("Problem reading shapexplainer.ini file in ShapExplainer. Is the file existent?")
 

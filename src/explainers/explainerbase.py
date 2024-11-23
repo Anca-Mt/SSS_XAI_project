@@ -14,7 +14,7 @@ class ExplainerBase(ABC, object):
 
 
   @abstractmethod
-  def explain(self, classifier, X, y):
+  def explain(self, classifier, X, y, dataset_ini):
     """[Print an explanation of the classifier based on X and y.]
 
     Args:
