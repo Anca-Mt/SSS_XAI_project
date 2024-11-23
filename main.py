@@ -130,9 +130,9 @@ if __name__ == "__main__":
 
   argparser.add_argument('--parser', default="npy", type=str, help='The argparser as a string')
   argparser.add_argument('--classifier', default="decisiontree", type=str, help='The classifier as a string')
-  argparser.add_argument('--explainer', default="all", type=str, help='The explainer as a string. \'all\' for all explainers')
+  argparser.add_argument('--explainer', default="shap", type=str, help='The explainer as a string. \'all\' for all explainers')
 
-  argparser.add_argument('-d', '--dataset', default=None, type=str,  help='Dataset to explain. Mandatory.')
+  argparser.add_argument('-d', '--dataset', default="CTU-13", type=str,  help='Dataset to explain. Mandatory.')
 
 #   argparser.add_argument('--xtrain', default="CTU-13_npys/Scenario 1/X_train.npy", type=str,  help='Path to X-train. Mandatory.')
 #   argparser.add_argument('--ytrain', default="CTU-13_npys/Scenario 1/Y_train.npy", type=str, help='Path to y-train. Mandatory.')

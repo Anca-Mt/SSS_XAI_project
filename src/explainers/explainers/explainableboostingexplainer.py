@@ -26,9 +26,9 @@ class EBMExplainer(ExplainerBase):
         Exception: [.ini file does not exist]
     """
     scriptdir = os.path.dirname(os.path.realpath(__file__))
-    filedir = os.path.join(scriptdir, "../parameters/limeexplainer.ini")
+    filedir = os.path.join(scriptdir, "../parameters/explainableboostingexplainer.ini")
     if not os.path.isfile(os.path.join(filedir)):
-      raise Exception("Problem reading limeexplainer.ini file in LimeExplainer. Is the file existent?")
+      raise Exception("Problem reading explainableboostingexplainer.ini file in EBMExplainer. Is the file existent?")
 
     config = configparser.ConfigParser()
     config.read(filedir)
