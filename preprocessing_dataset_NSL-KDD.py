@@ -31,11 +31,18 @@ def apply_binary_label(data):
 
     return data
 
-def encode_features(data, features):
-    encoder = LabelEncoder()
-    for f in features:
-        data[f] = encoder.fit_transform(data[f])
-    return data
+
+def encode_features(train_data, test_data, features):
+    for feature in features:
+        encoder = LabelEncoder()
+        # Combine unique values from both train and test
+        all_categories = pd.concat([train_data[feature], test_data[feature]]).unique()
+        encoder.fit(all_categories)
+
+        # Transform both datasets
+        train_data[feature] = encoder.transform(train_data[feature])
+        test_data[feature] = encoder.transform(test_data[feature])
+    return train_data, test_data
 
 
 if __name__ == '__main__':
@@ -49,10 +56,9 @@ if __name__ == '__main__':
     df_test = apply_binary_label(df_test)
 
     features_to_encode = ['protocol_type', 'service', 'flag']
-    df_train = encode_features(df_train, features_to_encode)
-    df_test = encode_features(df_test, features_to_encode)
+    df_train, df_test = encode_features(df_train, df_test, features_to_encode)
 
     df_train.to_csv("datasets_csv/NSL-KDD/NSL-KDDTrain.csv", index=False)
     df_test.to_csv("datasets_csv/NSL-KDD/NSL-KDDTest.csv", index=False)
 
-    print(f"CSV files fro NSL-KDD successfully saved!")
+    print(f"CSV files for NSL-KDD successfully saved!")

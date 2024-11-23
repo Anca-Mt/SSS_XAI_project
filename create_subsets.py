@@ -50,7 +50,7 @@ def split_data_in_2(data, label_column, explain_size=0.05):
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser(description='Splits given dataset to train, test and explain datasets.')
 
-    argparser.add_argument('-d', '--dataset', default='NSL-KDD', type=str, help='The datset to split as a string')
+    argparser.add_argument('-d', '--dataset', default='UNSW-NB15', type=str, help='The datset to split as a string')
 
     args = argparser.parse_args()
 
@@ -65,6 +65,17 @@ if __name__ == "__main__":
         y_train = dataset_csv_train['BinaryClass'].values
 
         splits2 = split_data_in_2(dataset_csv_test, label_column="BinaryClass")
+        X_test, y_test = splits2["test"]
+        X_explain, y_explain = splits2["explain"]
+
+    elif args.dataset == 'UNSW-NB15':
+        dataset_csv_train = pd.read_csv(f"datasets_csv/{args.dataset}/{args.dataset}Train.csv")
+        dataset_csv_test = pd.read_csv(f"datasets_csv/{args.dataset}/{args.dataset}Test.csv")
+
+        X_train = dataset_csv_train.drop(columns=['label']).values
+        y_train = dataset_csv_train['label'].values
+
+        splits2 = split_data_in_2(dataset_csv_test, label_column="label")
         X_test, y_test = splits2["test"]
         X_explain, y_explain = splits2["explain"]
 
