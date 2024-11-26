@@ -120,8 +120,6 @@ shapexplainer_CTU-13.ini, rename it to shapexlainer.ini so we automatically use 
   * create_subset.py now requires a -d or --dataset parameter to select the correct dataset (currently only 1)
   * main.py no longer requires giving xtrain, ytrain, xtest etc... just the name of the dataset!
   * valid datasets in the files where you have to pick are listed in the array valid_datasets near the top
-
-TODO: create --explainer all to run all explainers on the given dataset
 """
 
 
