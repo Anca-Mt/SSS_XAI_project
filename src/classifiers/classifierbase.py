@@ -8,6 +8,7 @@ from abc import ABC, abstractmethod
 
 import configparser
 import os
+import numpy as np
 
 class ClassifierBase(ABC, object):
   def __init__(self):
@@ -47,6 +48,13 @@ class ClassifierBase(ABC, object):
     """
     y_pred = self.classifier.predict(X)
     return y_pred
+  
+  def predict_proba(self, X):
+    predictions = self.classifier.predict(X)
+    proba = np.zeros((len(predictions), 2))  # Assuming binary classification
+    for i, pred in enumerate(predictions):
+      proba[i, pred] = 1.0
+    return proba
 
   @abstractmethod
   def read_ini(self):

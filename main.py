@@ -37,8 +37,10 @@ class DummyFile(object):
 def nostdout():
     save_stdout = sys.stdout
     sys.stdout = DummyFile()
-    yield
-    sys.stdout = save_stdout
+    try:
+      yield
+    finally:
+      sys.stdout = save_stdout
 
 
 def test_dataset(dataset_name):
@@ -83,7 +85,7 @@ if __name__ == "__main__":
   pfactory = ParserFactory()
   fileparser = pfactory.create_parser(args.parser)
 
-  print("Parsing the input files... ", end='', flush=True)
+  print(f"Parsing the {args.dataset} input files... ", end='', flush=True)
   X_train = fileparser.parse(X_train_f)
   y_train = fileparser.parse(y_train_f)
 
@@ -101,14 +103,16 @@ if __name__ == "__main__":
     
   load_classifier = args.load_classifier
   if load_classifier:
+    print(f"Attempting to load {os.path.basename(load_classifier)} classifier...", end='', flush=True)
     if not os.path.isfile(load_classifier):
       raise Exception("Invalid path to classifier provided: {}".format(load_classifier))
     classifier = pickle.load(open(load_classifier, "rb"))
+    print("Finished loading classifier.")
   else:
     cfactory = ClassifierFactory()
     classifier = cfactory.create_classifier(args.classifier)
     
-    print("Starting the training of the classifier... ", end='')
+    print(f"Starting the training of the {args.classifier} classifier... ", end='', flush=True)
     classifier.fit(X_train, y_train)
     classifier.print_wrong_predictions(X_explain, y_explain, output_path, args.classifier)
     
@@ -116,14 +120,14 @@ if __name__ == "__main__":
     print("Finished training the classifier.")
   
   explainers = [args.explainer]
-  if args.explainer == 'all':
-    print("Running all explainers...")
-    explainers = ['shap', 'lime', 'eli5', 'ebm']
+  if args.classifier.lower() == 'ebmclassifier':
+      print("EBMClassifier selected. Running EBM explainer...")
+      explainers = ['ebm']
+  elif args.explainer.lower() == 'all':
+      print("Running all explainers...")
+      explainers = ['shap', 'lime', 'eli5']
 
   for exp in explainers:
-    if exp == 'ebm' and args.classifier != "ebmclassifier":
-      break
-    
     print(f"Starting the explanation step for {exp}... ", end='' if exp != 'shap' else '\n', flush=True)
     try:
       efactory = ExplainerFactory()
@@ -132,7 +136,7 @@ if __name__ == "__main__":
         explainer = efactory.create_explainer(exp)
         explainer.explain(classifier=classifier, X=X_explain, y=y_explain, dataset_ini=args.dataset)
 
-      output_path = os.path.join(args.output_path, args.dataset, exp)
+      output_path = os.path.join(args.output_path, args.dataset, f'{exp}_{args.classifier}')
       if not os.path.isdir(output_path):
         os.makedirs(output_path, exist_ok=True)
         

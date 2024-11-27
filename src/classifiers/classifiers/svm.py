@@ -12,8 +12,7 @@ import configparser
 class SupportVectorMachine(ClassifierBase):
   def __init__(self):
     super().__init__()
-
-    #self.classifier = SVC(kernel="rbf") # TODO: give parameters from .ini file
+    # self.classifier = SVC(kernel="rbf") # TODO: give parameters from .ini file
     self.classifier = LinearSVC() # TODO: give parameters from .ini file
 
 

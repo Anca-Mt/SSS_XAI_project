@@ -21,7 +21,7 @@ Currently supported classifiers:
 
 <b>randomforest, decisiontree, svm, ebmclassifier</b>
 
-<u>NB: the EBM explainer only works with the EBMClassifier.</u>
+<u>NB: the EBM explainer only works with the EBMClassifier, and is incompatible with ELI5.</u>
 
 Currently supported datasets: 
 

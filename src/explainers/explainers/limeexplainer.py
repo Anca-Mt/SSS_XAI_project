@@ -60,7 +60,7 @@ class LimeExplainer(ExplainerBase):
 
     exps = list()
     for index in range(min(X.shape[0], 100)):
-      exp = explainer.explain_instance(data_row=X[index, :], predict_fn=classifier.classifier.predict_proba) # TODO: have a better predict function interface here
+      exp = explainer.explain_instance(data_row=X[index, :], predict_fn=classifier.predict_proba) # TODO: have a better predict function interface here
       exps.append(exp)
 
     self.explanations = exps
