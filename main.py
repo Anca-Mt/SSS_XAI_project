@@ -112,7 +112,7 @@ if __name__ == "__main__":
     classifier.fit(X_train, y_train)
     classifier.print_wrong_predictions(X_explain, y_explain, output_path)
     
-    pickle.dump(classifier, open(os.path.join(output_path, "classifier.pk"), "wb"))
+    pickle.dump(classifier, open(os.path.join(output_path, f"classifier_{args.classifier}.pk"), "wb"))
     print("Finished training the classifier.")
   
   explainers = [args.explainer]
@@ -121,7 +121,7 @@ if __name__ == "__main__":
     explainers = ['shap', 'lime', 'eli5', 'ebm']
 
   for exp in explainers:
-    print(f"Starting the explanation step for {exp}... ", end='', flush=True)
+    print(f"Starting the explanation step for {exp}... ", end='' if exp != 'shap' else '\n', flush=True)
     try:
       efactory = ExplainerFactory()
       
