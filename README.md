@@ -17,9 +17,13 @@ Install the required python packages using:
 pip install -r requirements.txt
 ```
 
+Currently supported classifiers:
+
+<b>randomforest, decisiontree, svm, ebmclassifier</b>
+
 Currently supported datasets: 
 
-#### CTU-13, NSL-KDD, UNSW-NB15
+<b>CTU-13, NSL-KDD, UNSW-NB15</b>
 
 The raw datasets can be found in ```datasets_raw/```. The datasets have already been preprocessed into the CSV format (```datasets_csv/```) and NumPy format (```datasets_npy/```). If you decide to build these datasets from scratch, preprocessing scripts are provided in the project directory under the name ```preprocessing_dataset_<DATASET>.py```. Since CTU-13 consists of multiple different scenarios, ```combine_all_CTU-13.py``` merges all ```.parquet``` files in the ```datasets_raw/CTU-13/``` directory into one ```.parquet``` file ready for preprocessing.
 
@@ -29,7 +33,7 @@ Example run:
 Available arguments:
 ```
 --parser            The argparser as a string. (default="npy")
---classifier        The classifier as a string. (default="ebm")
+--classifier        The classifier as a string. (default="ebmclassifier")
 --explainer         The explainer as a string. 'all' for all explainers. (default="all")
 -d --dataset        Dataset to explain. Mandatory. (default="CTU-13")
 --load-classifier   Path to a pickled classifier file. If provided, this classifier will be loaded rather than a new one trained. (default=None)
