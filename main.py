@@ -77,11 +77,11 @@ These were found in the factory files.
 if __name__ == "__main__":
   argparser = argparse.ArgumentParser(description='The pipeline for the explainability experiments.')
 
-  argparser.add_argument('--parser', default="npy", type=str, help='The argparser as a string')
-  argparser.add_argument('--classifier', default="decisiontree", type=str, help='The classifier as a string')
-  argparser.add_argument('--explainer', default="shap", type=str, help='The explainer as a string. \'all\' for all explainers')
+  argparser.add_argument('--parser', default="npy", type=str, help='The argparser as a string.')
+  argparser.add_argument('--classifier', default="ebm", type=str, help='The classifier as a string.')
+  argparser.add_argument('--explainer', default="all", type=str, help='The explainer as a string. \'all\' for all explainers.')
 
-  argparser.add_argument('-d', '--dataset', default="UNSW-NB15", type=str,  help='Dataset to explain. Mandatory.')
+  argparser.add_argument('-d', '--dataset', default="CTU-13", type=str,  help='Dataset to explain. Mandatory.')
 
   argparser.add_argument('--load-classifier', type=str, default=None, help='Path to a pickled classifier file. If provided, this classifier will be loaded rather than a new one trained.')
   argparser.add_argument('--output-path', type=str, default="results", help='Output dir for this experiment. Default is the results directory.')
