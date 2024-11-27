@@ -41,12 +41,6 @@ def clean_data(data):
     return data
 
 if __name__ == '__main__':
-    # CTU_1 = pd.read_parquet("CTU-13/1-Neris-20110810.binetflow.parquet")
-    # CTU_1 = apply_binary_label(CTU_1)
-    # CTU_1 = encode_features(CTU_1, ['proto', 'state'])
-    # CTU_1 = clean_data(CTU_1)
-    #
-    # CTU_1.to_csv("CTU-13_csvs/1-Neris-20110810.csv", index=False)
 
     CTU_13 = pd.read_parquet("datasets_raw/CTU-13/CTU-13.parquet")
     CTU_13 = apply_binary_label(CTU_13)

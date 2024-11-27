@@ -64,16 +64,6 @@ def test_dataset(dataset_name):
   return filepaths
 
 
-"""
-For Bart & me: 
-- parser strings: npy, csv
-- classifiers strings: random forest, decisiontree, svm, ebmclassifier
-- explainer strings:  lime, shap, eli5, ebm
-
-These were found in the factory files. 
-"""
-
-
 if __name__ == "__main__":
   argparser = argparse.ArgumentParser(description='The pipeline for the explainability experiments.')
 
