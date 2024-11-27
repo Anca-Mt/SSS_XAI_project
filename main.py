@@ -67,9 +67,9 @@ def test_dataset(dataset_name):
 if __name__ == "__main__":
   argparser = argparse.ArgumentParser(description='The pipeline for the explainability experiments.')
 
-  argparser.add_argument('--parser', default="npy", type=str, help='The argparser as a string')
-  argparser.add_argument('--classifier', default="ebmclassifier", type=str, help='The classifier as a string')
-  argparser.add_argument('--explainer', default="all", type=str, help='The explainer as a string. \'all\' for all explainers')
+  argparser.add_argument('--parser', default="npy", type=str, help='The argparser as a string.')
+  argparser.add_argument('--classifier', default="ebmclassifier", type=str, help='The classifier as a string.')
+  argparser.add_argument('--explainer', default="all", type=str, help='The explainer as a string. \'all\' for all explainers.')
 
   argparser.add_argument('-d', '--dataset', default="CTU-13", type=str,  help='Dataset to explain. Mandatory.')
 
@@ -110,7 +110,7 @@ if __name__ == "__main__":
     
     print("Starting the training of the classifier... ", end='')
     classifier.fit(X_train, y_train)
-    classifier.print_wrong_predictions(X_explain, y_explain, output_path)
+    classifier.print_wrong_predictions(X_explain, y_explain, output_path, args.classifier)
     
     pickle.dump(classifier, open(os.path.join(output_path, f"classifier_{args.classifier}.pk"), "wb"))
     print("Finished training the classifier.")

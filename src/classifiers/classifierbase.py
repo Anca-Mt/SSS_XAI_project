@@ -20,10 +20,10 @@ class ClassifierBase(ABC, object):
       raise Exception("Error: Classifier not fitted yet.")
 
 
-  def print_wrong_predictions(self, X, y, output_path):
+  def print_wrong_predictions(self, X, y, output_path, classifier):
     self.test_is_fitted()
     pred = self.predict(X)
-    outf = open(os.path.join(output_path, "pred_vs_true.csv"), "wt")
+    outf = open(os.path.join(output_path, f"pred_vs_true_{classifier}.csv"), "wt")
     for i, (y_pred, y_true) in enumerate(zip(pred, y)):
       outf.write((", ".join([str(i), "Pred: {}".format(y_pred), "True value: {}".format(y_true), "correct" if y_pred == y_true else "wrong"]) + "\n"))
 
