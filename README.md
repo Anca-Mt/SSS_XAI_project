@@ -21,6 +21,8 @@ Currently supported classifiers:
 
 <b>randomforest, decisiontree, svm, ebmclassifier</b>
 
+<u>NB: the EBM explainer only works with the EBMClassifier.</u>
+
 Currently supported datasets: 
 
 <b>CTU-13, NSL-KDD, UNSW-NB15</b>

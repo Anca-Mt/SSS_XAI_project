@@ -121,6 +121,9 @@ if __name__ == "__main__":
     explainers = ['shap', 'lime', 'eli5', 'ebm']
 
   for exp in explainers:
+    if exp == 'ebm' and args.classifier != "ebmclassifier":
+      break
+    
     print(f"Starting the explanation step for {exp}... ", end='' if exp != 'shap' else '\n', flush=True)
     try:
       efactory = ExplainerFactory()
