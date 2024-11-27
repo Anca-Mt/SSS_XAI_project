@@ -43,6 +43,7 @@ class ShapleyExplainer(ExplainerBase):
   def save_results(self, output_path):
     pickle.dump(self.shap_values, open(os.path.join(output_path, "shapley_explanations.pk"), "wb"))
 
+    # # Visualisations are in the scripts/ directory
     # for i in range(len(self.shap_values)):
     #   # shap.plots.force(self.shap_values[i], matplotlib=True, show=False)
     #   shap.plots.waterfall(self.shap_values[0], show=True)

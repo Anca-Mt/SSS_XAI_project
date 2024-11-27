@@ -69,6 +69,7 @@ class LimeExplainer(ExplainerBase):
     pickle.dump(self.explanations, open(os.path.join(output_path, "lime_explanations.pk"), "wb"))
 
     for i, exp in enumerate(self.explanations):
-      #fig = exp.as_pyplot_figure(show_table=True, show_all=True)
-      #plt.savefig("explanation_{}.jpg".format(i))
+      # # Visualisations are in the scripts/ directory
+      # fig = exp.as_pyplot_figure(show_table=True, show_all=True)
+      # plt.savefig("explanation_{}.jpg".format(i))
       exp.save_to_file(os.path.join(output_path, "explanation_{}.html".format(i)))

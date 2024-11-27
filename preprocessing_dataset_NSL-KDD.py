@@ -6,7 +6,6 @@ def arff_to_df(arff_path):
     data, meta = arff.loadarff(arff_path)
     df = pd.DataFrame(data)
 
-    # From binary to strings in df
     df = df.applymap(lambda x: x.decode('utf-8') if isinstance(x, bytes) else x)
 
     return df
