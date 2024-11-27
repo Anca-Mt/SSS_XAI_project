@@ -100,7 +100,7 @@ if __name__ == "__main__":
   output_path = os.path.join(args.output_path, args.dataset)
   if not os.path.isdir(output_path):
      os.makedirs(output_path, exist_ok=True)
-    
+
   load_classifier = args.load_classifier
   if load_classifier:
     print(f"Attempting to load {os.path.basename(load_classifier)} classifier...", end='', flush=True)
@@ -111,14 +111,14 @@ if __name__ == "__main__":
   else:
     cfactory = ClassifierFactory()
     classifier = cfactory.create_classifier(args.classifier)
-    
+
     print(f"Starting the training of the {args.classifier} classifier... ", end='', flush=True)
     classifier.fit(X_train, y_train)
     classifier.print_wrong_predictions(X_explain, y_explain, output_path, args.classifier)
-    
+
     pickle.dump(classifier, open(os.path.join(output_path, f"classifier_{args.classifier}.pk"), "wb"))
     print("Finished training the classifier.")
-  
+
   explainers = [args.explainer]
   if args.classifier.lower() == 'ebmclassifier':
       print("EBMClassifier selected. Running EBM explainer...")
@@ -131,7 +131,7 @@ if __name__ == "__main__":
     print(f"Starting the explanation step for {exp}... ", end='' if exp != 'shap' else '\n', flush=True)
     try:
       efactory = ExplainerFactory()
-      
+
       with nostdout():
         explainer = efactory.create_explainer(exp)
         explainer.explain(classifier=classifier, X=X_explain, y=y_explain, dataset_ini=args.dataset)
@@ -139,11 +139,11 @@ if __name__ == "__main__":
       output_path = os.path.join(args.output_path, args.dataset, f'{exp}_{args.classifier}')
       if not os.path.isdir(output_path):
         os.makedirs(output_path, exist_ok=True)
-        
+
       print(f"Finished explanations.\nSaving results to {output_path}... ", end='', flush=True)
       explainer.save_results(output_path)
       print("Finished saving results.")
-      
+
     except Exception as e:
       print(f"An error occurred while trying to run {exp}: {e}. Continuing...")
 
