@@ -7,6 +7,7 @@ data/*
 
 # Other
 ss_project_proposal.pdf
+.idea
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
