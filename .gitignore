@@ -1,3 +1,6 @@
+# Videos, images not required for project
+media/*
+
 # Experimental data
 experiments/*
 data/*
